@@ -45,3 +45,4 @@ Thumbs.db
 
 # others
 proxy.conf.json
+.env
