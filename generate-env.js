@@ -1,19 +1,24 @@
 const fs = require('fs');
 const path = require('path');
 
-const dirPath = './src/environments';
-const filePath = path.join(dirPath, 'environment.prod.ts');
+// 1. Resolve path relative to where the command is running
+const targetDir = path.join(process.cwd(), 'src', 'environments');
+const targetPath = path.join(targetDir, 'environment.prod.ts');
 
+console.log(`[Env Generator] Ensuring directory exists: ${targetDir}`);
 
-if (!fs.existsSync(dirPath)) {
-  fs.mkdirSync(dirPath, { recursive: true });
+// 2. Create the directory if it's missing
+if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
 }
 
-const envConfig = `export const environment = {
+// 3. Define your environment properties
+const envConfigFile = `export const environment = {
   production: true,
-  apiUrl: '${process.env.API_URL || "https://go-sec-headers-production.up.railway.app/"}'
-};
-`;
+  apiUrl: '${process.env.API_URL || ""}'
+};`;
 
-fs.writeFileSync(filePath, envConfig);
-console.log(`Environment file generated successfully at ${filePath}`);
+// 4. Write the file using the absolute targetPath variable
+fs.writeFileSync(targetPath, envConfigFile, 'utf8');
+
+console.log(`[Env Generator] Successfully wrote environment file to: ${targetPath}`);
