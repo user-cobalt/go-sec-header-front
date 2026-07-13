@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+/// Global Security Theme
+$color-safe: #2ecc71;    // Green
+$color-warning: #f1c40f; // Yellow
+$color-danger: #e74c3c;  // Red
+$color-dark: #2c3e50;    // Navy/Slate
+$color-light: #2d4f51;   // Off-white
+
+body {
+  background-color: $color-dark;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $color-dark;
+  margin: 0;
+}
