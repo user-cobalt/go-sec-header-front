@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://go-sec-headers-production.up.railway.app',
-  apiKey: 'API_KEY',
+  apiKey: 'dev-key',
 };
 
 /*
