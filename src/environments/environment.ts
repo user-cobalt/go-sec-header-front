@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://go-sec-headers-production.up.railway.app',
+  apiUrl: 'https://go-sec-headers-production.up.railway.app/scan',
   apiKey: 'API_KEY',
 };
 
