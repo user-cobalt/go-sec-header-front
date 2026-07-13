@@ -1,9 +1,9 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { join } from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const dir = './src/environments';
-if (!existsSync(dir)) {
-  mkdirSync(dir, { recursive: true });
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
 }
 
 const envDev = `export const environment = {
@@ -20,6 +20,6 @@ const envProd = `export const environment = {
 };
 `;
 
-writeFileSync(join(dir, 'environment.ts'), envDev);
-writeFileSync(join(dir, 'environment.prod.ts'), envProd);
+fs.writeFileSync(path.join(dir, 'environment.ts'), envDev);
+fs.writeFileSync(path.join(dir, 'environment.prod.ts'), envProd);
 console.log('environment files generated successfully');
