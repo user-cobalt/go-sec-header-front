@@ -1,11 +1,25 @@
-const fs = require('fs');
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
-const env = `export const environment = {
+const dir = './src/environments';
+if (!existsSync(dir)) {
+  mkdirSync(dir, { recursive: true });
+}
+
+const envDev = `export const environment = {
+  production: false,
+  apiUrl: '${process.env.API_URL}',
+  apiKey: '${process.env.API_KEY}',
+};
+`;
+
+const envProd = `export const environment = {
   production: true,
   apiUrl: '${process.env.API_URL}',
   apiKey: '${process.env.API_KEY}',
 };
 `;
 
-fs.writeFileSync('./src/environments/environment.prod.ts', env);
-console.log('environment.prod.ts generated successfully');
+writeFileSync(join(dir, 'environment.ts'), envDev);
+writeFileSync(join(dir, 'environment.prod.ts'), envProd);
+console.log('environment files generated successfully');
