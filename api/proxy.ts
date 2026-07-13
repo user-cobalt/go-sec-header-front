@@ -1,22 +1,20 @@
-export default async function handler(req: any, res: any) {
+// api/proxy.ts
+
+const handler = async (req: any, res: any) => {
   const env = process.env as any;
   const backendBase = env.GO_BACKEND_URL;
   const apiKey = env.SCANNER_API_KEY;
 
-  console.log('--- Proxy Debug ---');
-  console.log('Backend Base:', backendBase ? 'Set' : 'MISSING');
-  console.log('API Key:', apiKey ? 'Set' : 'MISSING');
-
+  // Validation
   if (!backendBase || !apiKey) {
-    return res.status(500).json({ error: 'Server configuration missing' });
+    return res.status(500).json({ error: 'Server configuration missing: Environment variables not set.' });
   }
 
   const path = (req.url || '').replace(/^\/api/, '');
   const destinationUrl = `${backendBase}${path}`;
-  console.log('Target URL:', destinationUrl);
 
   try {
-    const options: RequestInit = {
+    const options: any = {
       method: req.method,
       headers: {
         'X-API-Key': apiKey,
@@ -30,14 +28,14 @@ export default async function handler(req: any, res: any) {
 
     const backendResponse = await fetch(destinationUrl, options);
     
-    // Log the status in case the backend is the one rejecting us
-    console.log('Backend Status:', backendResponse.status);
-    
+    // Copy headers if needed or just parse JSON
     const data = await backendResponse.json();
     return res.status(backendResponse.status).json(data);
     
   } catch (error: any) {
-    console.error('Proxy Error:', error.message);
     return res.status(500).json({ error: 'Proxy failed to connect to backend', details: error.message });
   }
-}
+};
+
+// This is the line that fixes your error
+module.exports = handler;
