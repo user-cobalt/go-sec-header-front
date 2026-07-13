@@ -1,24 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
-// 1. Resolve path relative to where the command is running
 const targetDir = path.join(process.cwd(), 'src', 'environments');
-const targetPath = path.join(targetDir, 'environment.prod.ts');
+const prodPath = path.join(targetDir, 'environment.prod.ts');
+const devPath = path.join(targetDir, 'environment.ts'); // The missing base file
 
 console.log(`[Env Generator] Ensuring directory exists: ${targetDir}`);
 
-// 2. Create the directory if it's missing
 if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
 }
 
-// 3. Define your environment properties
-const envConfigFile = `export const environment = {
+const devConfig = `export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080'
+};`;
+fs.writeFileSync(devPath, devConfig, 'utf8');
+console.log(`[Env Generator] Wrote base file to: ${devPath}`);
+
+
+const prodConfig = `export const environment = {
   production: true,
   apiUrl: '${process.env.API_URL || ""}'
 };`;
-
-// 4. Write the file using the absolute targetPath variable
-fs.writeFileSync(targetPath, envConfigFile, 'utf8');
-
-console.log(`[Env Generator] Successfully wrote environment file to: ${targetPath}`);
+fs.writeFileSync(prodPath, prodConfig, 'utf8');
+console.log(`[Env Generator] Wrote production file to: ${prodPath}`);
