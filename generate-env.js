@@ -11,7 +11,7 @@ if (!fs.existsSync(dirPath)) {
 
 const envConfig = `export const environment = {
   production: true,
-  apiUrl: '${process.env.API_URL || "https://your-go-backend.com"}'
+  apiUrl: '${process.env.API_URL || "https://go-sec-headers-production.up.railway.app/"}'
 };
 `;
 
