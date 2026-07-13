@@ -1,17 +1,19 @@
 const fs = require('fs');
+const path = require('path');
 
-fs.writeFileSync('./src/environments/environment.ts', `export const environment = {
-  production: false,
-  apiUrl: '${process.env.API_URL}',
-  apiKey: '${process.env.API_KEY}',
-};
-`);
+const dirPath = './src/environments';
+const filePath = path.join(dirPath, 'environment.prod.ts');
 
-fs.writeFileSync('./src/environments/environment.prod.ts', `export const environment = {
+
+if (!fs.existsSync(dirPath)) {
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+
+const envConfig = `export const environment = {
   production: true,
-  apiUrl: '${process.env.API_URL}',
-  apiKey: '${process.env.API_KEY}',
+  apiUrl: '${process.env.API_URL || "https://your-go-backend.com"}'
 };
-`);
+`;
 
-console.log('environment files overwritten successfully');
+fs.writeFileSync(filePath, envConfig);
+console.log(`Environment file generated successfully at ${filePath}`);
